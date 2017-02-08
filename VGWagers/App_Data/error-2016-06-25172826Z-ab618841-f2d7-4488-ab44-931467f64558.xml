@@ -1,0 +1,168 @@
+﻿<error errorId="ab618841-f2d7-4488-ab44-931467f64558" application="/LM/W3SVC/5/ROOT" host="LAPTOP-60MB8BBG" type="System.Web.HttpException" message="The controller for path '/bundles/datevaliation' was not found or does not implement IController." source="System.Web.Mvc" detail="System.Web.HttpException (0x80004005): The controller for path '/bundles/datevaliation' was not found or does not implement IController.&#xD;&#xA;   at System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)&#xD;&#xA;   at System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)&#xD;&#xA;   at System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController&amp; controller, IControllerFactory&amp; factory)&#xD;&#xA;   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)&#xD;&#xA;   at System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)&#xD;&#xA;   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)&#xD;&#xA;   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()&#xD;&#xA;   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean&amp; completedSynchronously)" time="2016-06-25T17:28:26.6008173Z" statusCode="404">
+  <serverVariables>
+    <item name="ALL_HTTP">
+      <value string="HTTP_CONNECTION:keep-alive&#xD;&#xA;HTTP_ACCEPT:*/*&#xD;&#xA;HTTP_ACCEPT_ENCODING:gzip, deflate, br&#xD;&#xA;HTTP_ACCEPT_LANGUAGE:en-GB,en;q=0.5&#xD;&#xA;HTTP_COOKIE:ASP.NET_SessionId=dctog3uhdby4azjdv1b2uun5; __RequestVerificationToken=7B2gYAtXwYzF3-nx65ujxzSSrF58D0kfo7n7hLsXbsW7LylnIBKZWaG_Er_ixbLDN6RasQUMeG5_Allhv5HSqHalTktR2Hc-2KRrS7VKvRU1; .AspNet.ExternalCookie=o670TYVLOSeIGsq7ccD45SS_CVDk3lU-bsuA60FbX2NAo3XMAi5gGPCwjL7dGeR2Nii6BJJfZ_vmSLV7jFhOGyTqFFteCwDRZVvekKVqccq1jwdIoT8tXZf82rEFkayKfvKp8W8FCHlIhUgiw9TIytsFLoGagSR8aDyq6t4FydtlfClZ7LibWzDb9iWG9FVuf9W9J2HNLcyNGEC6N-AgEUglWPYxb-VEaUzufG97bLRPy2OKWsOCreJQ7bHmIsOGX_aDnzQHy1ctiAIzWWOQqVj3RzWUOnc3rKWiaB7h1Pdt5Tn15aif34UfCrbIOVcyWZjxuGSyzWWiJGz-B8bwPNpmjmyh8YVxUBUN7JysIyadPw2MTMU3pAVfBIrgcGqmBAqftHf2bhGAv5ucGlFgz229U0QJQfqBN0IsAhER2sgS1dS03A63poVDqDy8cdcEe0eMSmxGud1w-24QVBHpjSR-4m8ZBcfwKj2S5kTYbo44JDlRykIMNigFMOrhFHBu&#xD;&#xA;HTTP_HOST:localhost:44387&#xD;&#xA;HTTP_REFERER:https://localhost:44387/Account/ExternalLoginCallback&#xD;&#xA;HTTP_USER_AGENT:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0&#xD;&#xA;" />
+    </item>
+    <item name="ALL_RAW">
+      <value string="Connection: keep-alive&#xD;&#xA;Accept: */*&#xD;&#xA;Accept-Encoding: gzip, deflate, br&#xD;&#xA;Accept-Language: en-GB,en;q=0.5&#xD;&#xA;Cookie: ASP.NET_SessionId=dctog3uhdby4azjdv1b2uun5; __RequestVerificationToken=7B2gYAtXwYzF3-nx65ujxzSSrF58D0kfo7n7hLsXbsW7LylnIBKZWaG_Er_ixbLDN6RasQUMeG5_Allhv5HSqHalTktR2Hc-2KRrS7VKvRU1; .AspNet.ExternalCookie=o670TYVLOSeIGsq7ccD45SS_CVDk3lU-bsuA60FbX2NAo3XMAi5gGPCwjL7dGeR2Nii6BJJfZ_vmSLV7jFhOGyTqFFteCwDRZVvekKVqccq1jwdIoT8tXZf82rEFkayKfvKp8W8FCHlIhUgiw9TIytsFLoGagSR8aDyq6t4FydtlfClZ7LibWzDb9iWG9FVuf9W9J2HNLcyNGEC6N-AgEUglWPYxb-VEaUzufG97bLRPy2OKWsOCreJQ7bHmIsOGX_aDnzQHy1ctiAIzWWOQqVj3RzWUOnc3rKWiaB7h1Pdt5Tn15aif34UfCrbIOVcyWZjxuGSyzWWiJGz-B8bwPNpmjmyh8YVxUBUN7JysIyadPw2MTMU3pAVfBIrgcGqmBAqftHf2bhGAv5ucGlFgz229U0QJQfqBN0IsAhER2sgS1dS03A63poVDqDy8cdcEe0eMSmxGud1w-24QVBHpjSR-4m8ZBcfwKj2S5kTYbo44JDlRykIMNigFMOrhFHBu&#xD;&#xA;Host: localhost:44387&#xD;&#xA;Referer: https://localhost:44387/Account/ExternalLoginCallback&#xD;&#xA;User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0&#xD;&#xA;" />
+    </item>
+    <item name="APPL_MD_PATH">
+      <value string="/LM/W3SVC/5/ROOT" />
+    </item>
+    <item name="APPL_PHYSICAL_PATH">
+      <value string="C:\MyProjects\VGWagers\VGWagers\" />
+    </item>
+    <item name="AUTH_TYPE">
+      <value string="" />
+    </item>
+    <item name="AUTH_USER">
+      <value string="" />
+    </item>
+    <item name="AUTH_PASSWORD">
+      <value string="*****" />
+    </item>
+    <item name="LOGON_USER">
+      <value string="" />
+    </item>
+    <item name="REMOTE_USER">
+      <value string="" />
+    </item>
+    <item name="CERT_COOKIE">
+      <value string="" />
+    </item>
+    <item name="CERT_FLAGS">
+      <value string="" />
+    </item>
+    <item name="CERT_ISSUER">
+      <value string="" />
+    </item>
+    <item name="CERT_KEYSIZE">
+      <value string="128" />
+    </item>
+    <item name="CERT_SECRETKEYSIZE">
+      <value string="2048" />
+    </item>
+    <item name="CERT_SERIALNUMBER">
+      <value string="" />
+    </item>
+    <item name="CERT_SERVER_ISSUER">
+      <value string="CN=localhost" />
+    </item>
+    <item name="CERT_SERVER_SUBJECT">
+      <value string="CN=localhost" />
+    </item>
+    <item name="CERT_SUBJECT">
+      <value string="" />
+    </item>
+    <item name="CONTENT_LENGTH">
+      <value string="0" />
+    </item>
+    <item name="CONTENT_TYPE">
+      <value string="" />
+    </item>
+    <item name="GATEWAY_INTERFACE">
+      <value string="CGI/1.1" />
+    </item>
+    <item name="HTTPS">
+      <value string="on" />
+    </item>
+    <item name="HTTPS_KEYSIZE">
+      <value string="128" />
+    </item>
+    <item name="HTTPS_SECRETKEYSIZE">
+      <value string="2048" />
+    </item>
+    <item name="HTTPS_SERVER_ISSUER">
+      <value string="CN=localhost" />
+    </item>
+    <item name="HTTPS_SERVER_SUBJECT">
+      <value string="CN=localhost" />
+    </item>
+    <item name="INSTANCE_ID">
+      <value string="5" />
+    </item>
+    <item name="INSTANCE_META_PATH">
+      <value string="/LM/W3SVC/5" />
+    </item>
+    <item name="LOCAL_ADDR">
+      <value string="::1" />
+    </item>
+    <item name="PATH_INFO">
+      <value string="/bundles/datevaliation" />
+    </item>
+    <item name="PATH_TRANSLATED">
+      <value string="C:\MyProjects\VGWagers\VGWagers\bundles\datevaliation" />
+    </item>
+    <item name="QUERY_STRING">
+      <value string="" />
+    </item>
+    <item name="REMOTE_ADDR">
+      <value string="::1" />
+    </item>
+    <item name="REMOTE_HOST">
+      <value string="::1" />
+    </item>
+    <item name="REMOTE_PORT">
+      <value string="51397" />
+    </item>
+    <item name="REQUEST_METHOD">
+      <value string="GET" />
+    </item>
+    <item name="SCRIPT_NAME">
+      <value string="/bundles/datevaliation" />
+    </item>
+    <item name="SERVER_NAME">
+      <value string="localhost" />
+    </item>
+    <item name="SERVER_PORT">
+      <value string="44387" />
+    </item>
+    <item name="SERVER_PORT_SECURE">
+      <value string="1" />
+    </item>
+    <item name="SERVER_PROTOCOL">
+      <value string="HTTP/1.1" />
+    </item>
+    <item name="SERVER_SOFTWARE">
+      <value string="Microsoft-IIS/8.0" />
+    </item>
+    <item name="URL">
+      <value string="/bundles/datevaliation" />
+    </item>
+    <item name="HTTP_CONNECTION">
+      <value string="keep-alive" />
+    </item>
+    <item name="HTTP_ACCEPT">
+      <value string="*/*" />
+    </item>
+    <item name="HTTP_ACCEPT_ENCODING">
+      <value string="gzip, deflate, br" />
+    </item>
+    <item name="HTTP_ACCEPT_LANGUAGE">
+      <value string="en-GB,en;q=0.5" />
+    </item>
+    <item name="HTTP_COOKIE">
+      <value string="ASP.NET_SessionId=dctog3uhdby4azjdv1b2uun5; __RequestVerificationToken=7B2gYAtXwYzF3-nx65ujxzSSrF58D0kfo7n7hLsXbsW7LylnIBKZWaG_Er_ixbLDN6RasQUMeG5_Allhv5HSqHalTktR2Hc-2KRrS7VKvRU1; .AspNet.ExternalCookie=o670TYVLOSeIGsq7ccD45SS_CVDk3lU-bsuA60FbX2NAo3XMAi5gGPCwjL7dGeR2Nii6BJJfZ_vmSLV7jFhOGyTqFFteCwDRZVvekKVqccq1jwdIoT8tXZf82rEFkayKfvKp8W8FCHlIhUgiw9TIytsFLoGagSR8aDyq6t4FydtlfClZ7LibWzDb9iWG9FVuf9W9J2HNLcyNGEC6N-AgEUglWPYxb-VEaUzufG97bLRPy2OKWsOCreJQ7bHmIsOGX_aDnzQHy1ctiAIzWWOQqVj3RzWUOnc3rKWiaB7h1Pdt5Tn15aif34UfCrbIOVcyWZjxuGSyzWWiJGz-B8bwPNpmjmyh8YVxUBUN7JysIyadPw2MTMU3pAVfBIrgcGqmBAqftHf2bhGAv5ucGlFgz229U0QJQfqBN0IsAhER2sgS1dS03A63poVDqDy8cdcEe0eMSmxGud1w-24QVBHpjSR-4m8ZBcfwKj2S5kTYbo44JDlRykIMNigFMOrhFHBu" />
+    </item>
+    <item name="HTTP_HOST">
+      <value string="localhost:44387" />
+    </item>
+    <item name="HTTP_REFERER">
+      <value string="https://localhost:44387/Account/ExternalLoginCallback" />
+    </item>
+    <item name="HTTP_USER_AGENT">
+      <value string="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0" />
+    </item>
+  </serverVariables>
+  <cookies>
+    <item name="ASP.NET_SessionId">
+      <value string="dctog3uhdby4azjdv1b2uun5" />
+    </item>
+    <item name="__RequestVerificationToken">
+      <value string="7B2gYAtXwYzF3-nx65ujxzSSrF58D0kfo7n7hLsXbsW7LylnIBKZWaG_Er_ixbLDN6RasQUMeG5_Allhv5HSqHalTktR2Hc-2KRrS7VKvRU1" />
+    </item>
+    <item name=".AspNet.ExternalCookie">
+      <value string="o670TYVLOSeIGsq7ccD45SS_CVDk3lU-bsuA60FbX2NAo3XMAi5gGPCwjL7dGeR2Nii6BJJfZ_vmSLV7jFhOGyTqFFteCwDRZVvekKVqccq1jwdIoT8tXZf82rEFkayKfvKp8W8FCHlIhUgiw9TIytsFLoGagSR8aDyq6t4FydtlfClZ7LibWzDb9iWG9FVuf9W9J2HNLcyNGEC6N-AgEUglWPYxb-VEaUzufG97bLRPy2OKWsOCreJQ7bHmIsOGX_aDnzQHy1ctiAIzWWOQqVj3RzWUOnc3rKWiaB7h1Pdt5Tn15aif34UfCrbIOVcyWZjxuGSyzWWiJGz-B8bwPNpmjmyh8YVxUBUN7JysIyadPw2MTMU3pAVfBIrgcGqmBAqftHf2bhGAv5ucGlFgz229U0QJQfqBN0IsAhER2sgS1dS03A63poVDqDy8cdcEe0eMSmxGud1w-24QVBHpjSR-4m8ZBcfwKj2S5kTYbo44JDlRykIMNigFMOrhFHBu" />
+    </item>
+  </cookies>
+</error>

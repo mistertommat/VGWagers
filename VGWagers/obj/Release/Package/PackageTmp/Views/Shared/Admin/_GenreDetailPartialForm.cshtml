@@ -1,0 +1,52 @@
+﻿@using VGWagers.Resource
+@using VGWagers.Models
+@model GenreViewModel
+  
+<div class="col-md-12">
+    @{
+        Html.EnableUnobtrusiveJavaScript();
+        Html.EnableClientValidation();
+    }
+    @using (Html.BeginForm("SaveGenre", "Lookup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "genrdetailform" }))
+    {
+        @Html.AntiForgeryToken()
+        if (@ViewBag.Mode == "Edit")
+        {
+            <h4 class="lookup-list-title">Edit Genre record</h4>
+        }
+        if (@ViewBag.Mode == "New")
+        {
+            <h4 class="lookup-list-title">Add a new Genre</h4>
+        }
+        <hr />
+        <div class="alert alert-danger" role="alert" style="display: none" id="alertBox"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.HiddenFor(m => m.GENREID)
+            @Html.LabelFor(m => m.GENRENAME, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.GENRENAME, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.GENRENAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ISACTIVE, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8 form-control-static">
+                @Html.CheckBoxFor(m => m.ISACTIVE)
+            </div>
+        </div>
+        <div class="form-group">
+                        
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-7 col-md-1">
+                <input type="submit" class="btn btn-primary btn-lg" value="Save" />                
+            </div>
+            <div class="col-md-4 lookup-list-title">
+                @Html.ActionLink(" Cancel and go back to Genre List", "GenreList", "Lookup", routeValues: null, htmlAttributes: new { id = "cancelGenreLink", @class = "modal-link cancel-link" })
+            </div>
+            <br />
+        </div>
+    }            
+</div>
+    

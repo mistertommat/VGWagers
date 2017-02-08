@@ -89,8 +89,8 @@ namespace VGWagers
             //261ab3ebdeb8dfca703df360cdcf861e
 
             app.UseGoogleAuthentication(
-                 clientId: "13059308991-ij2h290q6o779h2df0q6racogte4m5ok.apps.googleusercontent.com",
-                 clientSecret: "MzYKj7ubp4sZfq5x2j2SBHcH");
+                 clientId: "134092003332-msdt1vi52ubtmlt7bbm2kn51manafq3m.apps.googleusercontent.com",
+                 clientSecret: "wmBJnRLfPyxaMi_e8HUakrTX");
         }
     }
 }

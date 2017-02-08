@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace VGWagers.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser<int, CustomUserLogin, CustomUserRole, CustomUserClaim>
+    public class ApplicationUser : IdentityUser<int, CustomUserLogin, CustomUserRole, CustomUserClaim>, IUser
     {
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
         {
@@ -32,6 +32,25 @@ namespace VGWagers.Models
         public string PSNId { get; set; }
 
         public byte[] ProfilePhoto { get; set; }
+
+
+
+        string IUser<string>.Id
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        string IUser<string>.UserName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole,int,CustomUserLogin,CustomUserRole,CustomUserClaim>
@@ -62,7 +81,25 @@ namespace VGWagers.Models
         }
     }
 
-    public class CustomUserRole : IdentityUserRole<int> { }
+    public class CustomUserRole : IdentityUserRole<int>, IRole
+    {
+        string IRole<string>.Id
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        string IRole<string>.Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
     public class CustomUserClaim : IdentityUserClaim<int> { }
     public class CustomUserLogin : IdentityUserLogin<int> { }
 

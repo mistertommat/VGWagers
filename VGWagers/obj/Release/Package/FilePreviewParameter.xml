@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="vgwager" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\MyProjects\\VGWagers\\VGWagers\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\MyProjects\\VGWagers\\VGWagers\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="server=vgwager.cv7xgtxxjbyr.eu-west-1.rds.amazonaws.com,3306;user id=vgwager;password=Vgwager123;persistsecurityinfo=True;database=vgwager" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\MyProjects\\VGWagers\\VGWagers\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="VGWagers.IdentityMySQL.MySqlHistoryContext-Web.config Connection String" description="" value="VGWagers.IdentityMySQL.MySqlHistoryContext_ConnectionString" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\MyProjects\\VGWagers\\VGWagers\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='VGWagers.IdentityMySQL.MySqlHistoryContext']/@connectionString" />
+  </parameter>
+  <parameter name="vgwagersEntities-Web.config Connection String" description="" value="metadata=res://*/Models.Entities.csdl|res://*/Models.Entities.ssdl|res://*/Models.Entities.msl;provider=MySql.Data.MySqlClient;provider connection string=&quot;server=localhost;user id=vgwager;password=vgwager;persistsecurityinfo=True;database=vgwagers&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\MyProjects\\VGWagers\\VGWagers\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='vgwagersEntities']/@connectionString" />
+  </parameter>
+  <parameter name="LocalMySqlServer-Web.config Connection String" description="LocalMySqlServer Connection String used in web.config by the application to access the database." value="" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\MyProjects\\VGWagers\\VGWagers\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='LocalMySqlServer']/@connectionString" />
+  </parameter>
+</parameters>

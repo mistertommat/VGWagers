@@ -1,0 +1,135 @@
+﻿@using VGWagers.Models
+@model LookupViewModel
+
+@{
+    Html.EnableUnobtrusiveJavaScript();
+    Html.EnableClientValidation();
+}
+
+<script>
+    $(function () {
+        
+        $('#liGames').removeClass('active ui-tabs-active ui-state-active tab-active-text');
+        $('#divGames').removeClass('active');
+        $('#divGames').hide();
+        $('#liConsoles').removeClass('active ui-tabs-active ui-state-active tab-active-text');
+        $('#divConsoles').removeClass('active');
+        $('#divConsoles').hide();
+        $('#liDifficultyLevels').removeClass('active ui-tabs-active ui-state-active tab-active-text');
+        $('#divDifficultyLevels').removeClass('active');
+        $('#divDifficultyLevels').hide();
+        $('#liGenre').removeClass('active ui-tabs-active ui-state-active tab-active-text');
+        $('#divGenre').removeClass('active');
+        $('#divGenre').hide();
+
+        switch ($('#hdnLookupType').val())
+        {
+            case "Game":
+                $('#liGames').addClass('active ui-tabs-active ui-state-active tab-active-text');
+                $('#divGames').addClass('active');
+                $('#divGames').show();
+                break;
+            case "Platform":
+                $('#liConsoles').addClass('active ui-tabs-active ui-state-active tab-active-text');
+                $('#divConsoles').addClass('active');
+                $('#divConsoles').show();
+                break;
+            case "DifficultyLevel":
+                $('#liDifficultyLevels').addClass('active ui-tabs-active ui-state-active tab-active-text');
+                $('#divDifficultyLevels').addClass('active');
+                $('#divDifficultyLevels').show();
+                break;
+            case "Genre":
+                $('#liGenre').addClass('active ui-tabs-active ui-state-active tab-active-text');
+                $('#divGenre').addClass('active');
+                $('#divGenre').show();
+                break;
+        }
+    })
+</script>
+@{
+    ViewBag.Title = "Manage Lookups";
+}
+<div class="div-bg" style="border-radius:5px">
+    <div class="alert alert-info alert-dismissable">
+        <strong>Manage Lookups</strong>
+        <br />
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>        
+            Do not set "Active" as "No" for Games that are featured in Current Wagers / Tournaments. Use the "Active" field to retire old games - once made inactive, Games will stop appearing on pages through the entire website.        
+        <br />
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>        
+            Consoles, Difficulty Levels and Game Genres defined in the respective Lookup tabs will be available on the Games tab and one or more can be mapped to each game.        
+        @Html.Hidden("hdnLookupType", (object)@ViewBag.LookupType)
+    </div>
+
+    <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+        <ul class="nav nav-tabs ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" id="lookupTab">
+            <li id="liGames" class="div-bg ui-state-default ui-corner-top tab-text">@Html.ActionLink("Games", "Index", "Lookup", new { @class = "ui-tabs-anchor" })</li>
+            <li id="liConsoles" class="div-bg ui-state-default ui-corner-top tab-text">@Html.ActionLink("Consoles / Platforms", "PlatformList", "Lookup", new { @class = "ui-tabs-anchor" })</li>
+            <li id="liDifficultyLevels" class="div-bg ui-state-default ui-corner-top tab-text">@Html.ActionLink("Difficulty Levels", "DifficultyLevelList", "Lookup", new { @class = "ui-tabs-anchor" })</li>
+            <li id="liGenre" class="div-bg ui-state-default ui-corner-top tab-text">@Html.ActionLink("Genres", "GenreList", "Lookup", new { @class = "ui-tabs-anchor" })</li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane div-bg ui-tabs-panel ui-widget-content ui-corner-bottom" id="divGames">
+                @if (@ViewBag.LookupType == "Game" && @ViewBag.Mode == "List")
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_GameListPartial.cshtml", Model.GamesList)
+                }
+
+                @if (@ViewBag.LookupType == "Game" && (@ViewBag.Mode == "New" || @ViewBag.Mode == "Edit"))
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_GameDetailPartialForm.cshtml", Model.Game)
+                    <div class="col-md-4 vgw-form-float-right vgw-align-div-content-center" style="overflow:auto; border-style:ridge; width:295px; height:475px; padding-left:9px; padding-top:9px;">
+                        @{
+                            Html.RenderPartial("~/Views/Shared/_Upload.cshtml", 
+                                                Model.Game.GAMEIMAGE, 
+                                                new ViewDataDictionary { 
+                                                                        { "aspectRatio", "0.716" }, 
+                                                                        { "defaultFullSelection", "1" },
+                                                                        { "resizeOnImageSelect", "0" },
+                                                                        { "redirectURL", "/Lookup/UploadGameImage" },
+                                                                        { "parameterValue", Model.Game.GAMEID },
+                                                                        { "parameterValueRequired", "1" }  
+                                                                       });
+                        }
+                    </div>
+                }
+            </div>
+            <div class="tab-pane div-bg ui-tabs-panel ui-widget-content ui-corner-bottom" id="divConsoles">
+                @if (@ViewBag.LookupType == "Platform" && @ViewBag.Mode == "List")
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_PlatformListPartial.cshtml", Model.PlatformList)
+                }
+
+                @if (@ViewBag.LookupType == "Platform" && (@ViewBag.Mode == "New" || @ViewBag.Mode == "Edit"))
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_PlatformDetailPartialForm.cshtml", Model.Platform)
+                }
+            </div>
+            <div class="tab-pane div-bg ui-tabs-panel ui-widget-content ui-corner-bottom" id="divDifficultyLevels">
+                @if (@ViewBag.LookupType == "DifficultyLevel" && @ViewBag.Mode == "List")
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_DifficultyLevelListPartial.cshtml", Model.DifficultyLevelList)
+                }
+
+                @if (@ViewBag.LookupType == "DifficultyLevel" && (@ViewBag.Mode == "New" || @ViewBag.Mode == "Edit"))
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_DifficultyLevelDetailPartialForm.cshtml", Model.DifficultyLevel)
+                }
+            </div>
+            <div class="tab-pane div-bg ui-tabs-panel ui-widget-content ui-corner-bottom" id="divGenre">
+                @if (@ViewBag.LookupType == "Genre" && @ViewBag.Mode == "List")
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_GenreListPartial.cshtml", Model.GenreList)
+                }
+
+                @if (@ViewBag.LookupType == "Genre" && (@ViewBag.Mode == "New" || @ViewBag.Mode == "Edit"))
+                {
+                    @Html.Partial("~/Views/Shared/Admin/_GenreDetailPartialForm.cshtml", Model.Genre)
+                }
+            </div>
+        </div>
+    </div>
+</div>

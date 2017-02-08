@@ -1,0 +1,566 @@
+﻿@using VGWagers.Resource
+@using VGWagers.Models
+@model GameViewModel
+@{
+    Html.EnableUnobtrusiveJavaScript();
+    Html.EnableClientValidation();
+}
+
+<script>
+    $.validator.addMethod("uploadFile", function (val, element) {
+        debugger;
+        var size = element.files[0].size;
+        console.log(size);
+
+        if (size > 1048576)// checks the file more than 1 MB
+        {
+            console.log("returning false");
+            return false;
+        } else {
+            console.log("returning true");
+            return true;
+        }
+
+    }, "File type error");    
+
+    $("#gamedetailform", this).submit(function (e) {
+        e.preventDefault();
+        var alertBox = $("#alertBox");
+        alertBox.css("display", "none");
+
+        $("#main-loading-div-background").addClass("imgLoadingContainer");
+        var offsetImg = $("#divProfilePhoto").offset();
+        $("#main-loading-div-background").css("left", offsetImg.left);
+        $("#main-loading-div-background").css("top", offsetImg.top);
+
+        $("#main-loading-div-background").show();
+
+        if (!$(this).valid()) {
+            return false;
+        }
+        var data = $(this).serialize();
+        var files = $("#pickPhoto").get(0).files;
+        if (files.length > 0) {
+            data.append("profileImage", files[0]);
+        }
+        $.ajax({
+            url: "~/Lookup/SaveGame",
+            @*url: "@Url.Action('SaveGame', 'Lookup')",*@
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (response) {
+                //code after success
+                var photo = $("#pickPhoto").get(0).files;
+                if (photo.length > 0) {
+                    $("#profilePhoto").attr("src", URL.createObjectURL(photo[0]));
+                }
+
+                $("#main-loading-div-background").hide();
+            },
+            error: function (er) {
+                alert(er);
+            }
+        }).done(function (returnedJSON) {
+            if (returnedJSON.success) {
+
+            }
+            else {
+                var alertBox = $("#alertBox");
+                alertBox.html(returnedJSON.msg);
+                alertBox.css("display", "block");
+
+                return false;
+            }
+        });
+    });
+</script>
+  
+<div class="col-md-8" id="divGameDetails">
+    @{
+        Html.EnableUnobtrusiveJavaScript();
+        Html.EnableClientValidation();
+    }
+    @using (Html.BeginForm("SaveGame", "Lookup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "gamedetailform" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (@ViewBag.Mode == "Edit")
+        {
+            <h4 class="lookup-list-title">Edit Game record</h4>
+        }
+        if (@ViewBag.Mode == "New")
+        {
+            <h4 class="lookup-list-title">Add a new Game</h4>
+        }
+        <hr style="border-top:1px solid #333;" />
+        <div class="alert alert-danger" role="alert" style="display: none" id="alertBox"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("hdnPageMode", (Object)ViewBag.Mode)
+        <div class="col-md-12" style=" min-height: 335px;">
+
+            <div class="form-group">
+                @Html.HiddenFor(m => m.GAMEID, new { id = "hdnGameId" })
+                @Html.LabelFor(m => m.GAMENAME, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.GAMENAME, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.GAMENAME, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(m => m.GENRE, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(m => m.GENREID, @Model.ACTIVEGENRES, new { @class = "form-control dropdown" })
+                    @*@Html.DropDownList("GENRES", null, String.Empty, new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(m => m.GENREID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ISACTIVE, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4 form-control-static">
+                    @Html.CheckBoxFor(m => m.ISACTIVE, new { @class = "form-control checkbox width-21 height-21" })
+                </div>
+
+                @Html.LabelFor(m => m.RELEASEDATE, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4 form-control-static">
+                    @Html.TextBoxFor(m => m.RELEASEDATE, new { @class = "form-control datepicker", type = "date" })
+                    @Html.ValidationMessageFor(m => m.RELEASEDATE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group margin-bottom-5">
+                @Html.LabelFor(m => m.AVAILABLEONPLATFORMS, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4 form-control-static">
+                    @Html.Hidden("hdnSelectedPlatform")
+                    @Html.ListBoxFor(m => m.SELECTEDPLATFORMS, new MultiSelectList(Model.PLATFORMS, "PLATFORMID", "PLATFORMNAME"), new { id = "lstPlatforms", @class = "form-control platformList", Multiple = "multiple", Size = 5, style = "width: 100%;display:none;" })
+                    <ul id="ulPlatforms" class="list-inline tag-ul">
+                        @{
+                            foreach (var platform in Model.PLATFORMS)
+                            {
+                                    <li style="margin:2px;" value=@platform.PLATFORMID>
+                                        <span style="" class="badge platform-badge">
+                                            @platform.PLATFORMNAME
+                                        </span>
+                                    </li>
+                            }
+                        }
+                    </ul>
+
+                    <span id="lnkAddPlatform" class="glyphicon glyphicon-plus link-cursor link-add"></span>
+                    <br />
+                    <div style="height:34px;">
+                        @Html.TextBox("txtPlatform", "",
+                                        new
+                                        {
+                                            @class = "autocomplete-with-hidden form-control cchidden width-0 margin-top-3",
+                                            data_url = Url.Action("GetActivePlatforms", "Lookup"),
+                                            autocomplete = "on"
+                                        })
+
+
+                    </div>
+                </div>
+                
+                @Html.LabelFor(m => m.DIFFICULTYLEVELS, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4 form-control-static">
+                    
+                    @Html.Hidden("hdnSelectedDifficultyLevel")
+                    @Html.ListBoxFor(m => m.SELECTEDLEVELS, new MultiSelectList(Model.LEVELS, "DIFFICULTYLEVELID", "DIFFICULTYLEVELNAME"), new { id = "lstDifficultyLevels", @class = "form-control", Multiple = "multiple", Size = 5, style = "width: 100%;display:none;" })
+                    <ul id="ulDifficultyLevels" class="list-inline tag-ul">
+                        @{
+                            foreach (var difficultyLevel in Model.LEVELS)
+                            {
+                                    <li style="margin:2px;" value=@difficultyLevel.DIFFICULTYLEVELID>
+                                        <span style="" class="badge platform-badge">
+                                            @difficultyLevel.DIFFICULTYLEVELNAME
+                                        </span>
+                                    </li>
+                            }
+                        }
+                    </ul>
+                    <span id="lnkAddDifficultyLevel" class="glyphicon glyphicon-plus link-cursor link-add"></span>
+                    <br />
+                    <div style="height:34px;">
+                        @Html.TextBox("txtDifficultyLevel", "",
+                                    new
+                                    {
+                                        @class = "autocomplete-with-hidden form-control cchidden width-0 margin-top-3",
+                                        data_url = Url.Action("GetActiveDifficultyLevels", "Lookup"),
+                                        autocomplete = "on"
+                                    })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="removeItems" style="display:none;">
+                <div class="col-md-4 col-md-offset-2 form-control-static no-top-padding">
+                    @{
+                        if (@ViewBag.Mode == "Edit")
+                        {
+                            @*<div id="removePlatformsEdit" style="display:none;">
+                                @Ajax.ActionLink(" Remove selected Platforms(s)", "RemoveGamePlatform", new { GameId = Model.GAMEID },
+                                                                        new AjaxOptions()
+                                                                        {
+                                                                            HttpMethod = "Delete",
+                                                                            UpdateTargetId = "divMainContent",
+                                                                            Confirm = "Are you sure you want to remove the selected console(s) / platform(s) for this game?",
+                                                                            OnComplete = "function() { window.location.href = window.location.href; $('#main-loading-div-background').hide();}"
+                                                                        },
+                                                                        new { @class = "remove glyphicon glyphicon-remove link-cursor" }
+                                                        )
+                            </div>*@
+                        }
+                        else if (@ViewBag.Mode == "New")
+                        {
+                            @*<div id="removePlatformsNew" style="display:none;">
+                                <a class="remove glyphicon glyphicon-remove link-cursor" onclick="removeSelectedItems('lstPlatforms');"> </a>
+                                <a class="remove link-cursor" onclick="removeSelectedItems('lstPlatforms');"> Click here to remove selected Platforms(s)</a>
+                            </div>*@
+                        }
+                    }
+                </div>
+
+                <div class="col-md-4 col-md-offset-2 form-control-static no-top-padding">
+                    @{
+                        if (@ViewBag.Mode == "Edit")
+                        {
+                            @*<div id="removeDifficultyLevelsEdit" style="display:none;">
+                                @Ajax.ActionLink(" Remove selected Difficulty Level(s)", "RemoveGameDifficultyLevel", new { GameId = Model.GAMEID },
+                                                                        new AjaxOptions()
+                                                                        {
+                                                                            HttpMethod = "Delete",
+                                                                            UpdateTargetId = "divMainContent",
+                                                                            Confirm = "Are you sure you want to remove the selected Difficulty Level(s) for this game?",
+                                                                            OnComplete = "function() { window.location.href = window.location.href; $('#main-loading-div-background').hide();}"
+                                                                        },
+                                                                  new { @class = "glyphicon glyphicon-remove link-cursor" }
+                                                                )
+                            </div>*@
+                        }
+                        else if (ViewBag.mode == "New")
+                        {
+                            @*<div id="removeDifficultyLevelsNew" style="display:none;">
+                                <a class="glyphicon glyphicon-remove link-cursor" onclick="removeSelectedItems('lstDifficultyLevels');"> </a>
+                                <a class="link-cursor" onclick="removeSelectedItems('lstDifficultyLevels');"> Click here to remove selected Difficulty Level(s)</a>
+                            </div>*@
+                        }
+                    }
+                </div>
+            </div>
+            
+        </div>
+
+            @*<div class="col-md-4 vgw-form-float-right vgw-align-div-content-center" style="overflow:auto; border-style:ridge; width:295px; height:435px; padding-left:9px; padding-top:9px;">
+            @{
+                        @*string base64 = string.Empty;
+                        string imgSrc = string.Empty;
+                        if (Model.GAMEIMAGE != null && Model.GAMEIMAGE.GAMEIMAGEBINARY != null)
+                        {
+                            base64 = Convert.ToBase64String(Model.GAMEIMAGE.GAMEIMAGEBINARY);
+                            imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                        }
+                        else
+                        {
+                            imgSrc = "../Content/images/default_image.png";
+                        }
+                        <div id="divProfilePhoto" style="width:272px;height:380px; margin-bottom: 8px;" >
+                            <img style="width:272px;height:380px;" id="profilePhoto" src="@imgSrc" />
+                        </div>
+                <div >
+                    @Html.TextBoxFor(m => m.GAMEIMAGE.GAMEIMAGE, new { type = "file", id = "pickPhoto", @class = "vgw-width100percent" })
+                    @Html.ValidationMessageFor(m => m.GAMEIMAGE.GAMEIMAGE)
+                </div>*@               
+
+                @*<div class="alert alert-danger" role="alert" style="display: none" id="alertBox"></div>*@
+            @*}
+        </div>*@
+
+    <div class="form-group col-md-12">
+        <div class="col-md-offset-4 col-md-1">
+            <input type="submit" class="btn btn-primary btn-lg" id="saveGameDetails" value="Save" />
+        </div>
+        <div class="col-md-7 lookup-list-title" style="padding-top:15px; float:right; padding-right:0px; text-align:right;">
+            @Html.ActionLink(" Cancel and go back to Games List", "Index", "Lookup", routeValues: null, htmlAttributes: new { id = "cancelGameLink", @class = "modal-link cancel-link" })
+        </div>
+
+    </div>
+    }
+
+    </div>
+
+<nav class="context-menu">
+    <ul class="context-menu__items">
+        <li class="context-menu__item">
+            <a href="#" class="context-menu__link">
+                <i class="fa fa-eye"></i> Remove
+            </a>
+        </li>
+    </ul>
+</nav>
+
+    
+<script>
+    $(function () {
+
+        $('input[type="date"]').attr('type', 'text');
+
+        $(".datepicker").datetimepicker({
+            format: 'DD/MM/YYYY',
+            showClose: true,
+            showClear: true,
+            toolbarPlacement: 'bottom'
+        });
+
+        $("#pickPhoto").on('change', function () {
+            $("#profilePhoto").attr('src', 'url(file://' + $(this).val() + ')');
+        })
+
+        if ($('#hdnPageMode').val() == 'Edit')
+        {
+            if ($('#lstPlatforms').length > 0)
+            {
+                $('#removeItems').show();
+                $('#removePlatformsEdit').show();
+            }
+            
+            if ($('#lstDifficultyLevels').length > 0) {
+                $('#removeItems').show();
+                $('#removeDifficultyLevelsEdit').show();
+            }
+        }
+        
+
+        $('#txtPlatform').autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                var url = $(this.element).data('url');
+
+                $.getJSON(url, { searchText: request.term }, function (data) {
+                    response($.map(data,
+                        function (item) {
+                            return {
+                                label: item.PLATFORMNAME,
+                                value1: item.PLATFORMID
+                            }
+                        }));
+                })
+            },
+            select: function (event, ui) {
+                $(event.target).next('input[type=hidden]').val(ui.item.value1);
+                //$(event.target).val(ui.item.label);
+
+                var optionVal = ui.item.value1;
+                var exists = false;
+                $('#lstPlatforms option').each(function () {
+                    //$(this).removeAttr("selected");
+
+                    if (this.value == optionVal) {
+                        exists = true;
+                    }
+                });
+
+                if (!exists) {
+                    $('#lstPlatforms').append('<option value="' + ui.item.value1 + '" selected="selected">' +
+                        ui.item.label +
+                        "</option>"
+                        );
+                    $('#ulPlatforms').append('<li style="margin:2px;" value=' + ui.item.value1 +
+                                             '><span style="" class="badge platform-badge">' +
+                                             ui.item.label + '</span></li>');
+
+                    $('#ulPlatforms > li[value=' +
+                            ui.item.value1 +
+                            '] > span').append("<a style='' > | <span  onclick='removeItem(\"ulPlatforms\", \"lstPlatforms\", " +
+                                                ui.item.value1 +
+                                               ");'" + ' style="vertical-align:baseline;font-size:small;cursor:pointer;" class="remove glyphicon glyphicon-trash"></span></a>'
+                                              );
+
+                    $(event.target).val('');
+                    //$("#lnkAddPlatform").show();
+                    //$('#txtPlatform').width('0px');
+                    //$('#txtPlatform').hide();
+                    //$('#removeItems').show();
+                    //$('#removePlatformsEdit').show();
+                    //$('#removePlatformsNew').show();
+                    return false;
+                }
+                else {
+                    $(event.target).val(ui.item.label + ' - already added!');
+                    return false;
+                }
+                
+            },
+            change: function (event, ui) {
+               if (!ui.item) {
+                    $(event.target).val('').next('input[type=hidden]').val('');
+                }
+            }
+        });
+
+        $('#lnkAddPlatform').click(function () {
+            $("#lnkAddPlatform").hide();
+            $('#txtPlatform').show();
+            $('#txtPlatform').animate({               
+                width: '100%',
+                backgroundColor: '#fff', // background color
+                paddingRight: '43px'
+            }, 300, function () {                
+                $('#txtPlatform').focus();
+            }).addClass('focus');
+
+            return false;
+        });
+
+        $('#txtPlatform').keyup(function (e) {
+            if (e.keyCode == 27) { // escape key maps to keycode `27`
+                hideNewPlatformField();
+            }
+        });
+
+        $('#txtPlatform').focusout(function () {
+            hideNewPlatformField();
+        });
+
+        function hideNewPlatformField() {
+            $('#txtPlatform').animate({
+                width: '0px'
+            }, 300, function () {
+                $('#txtPlatform').hide();
+                $("#lnkAddPlatform").show();
+            }).addClass('focus');
+        }
+
+        $('#txtPlatform').click(
+            function () {
+                $('#txtPlatform').val('');
+            }
+        );
+
+        $('#txtDifficultyLevel').autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                var url = $(this.element).data('url');
+
+                $.getJSON(url, { searchText: request.term }, function (data) {
+                    response($.map(data,
+                        function (item) {
+                            return {
+                                label: item.DIFFICULTYLEVELNAME,
+                                value1: item.DIFFICULTYLEVELID
+                            }
+                        }));
+                })
+            },
+            select: function (event, ui) {
+                $(event.target).next('input[type=hidden]').val(ui.item.value1);
+                //$(event.target).val(ui.item.label);
+
+                var optionVal = ui.item.value1;
+                var exists = false;
+                $('#lstDifficultyLevels option').each(function () {
+                    //$(this).removeAttr("selected");
+
+                    if (this.value == optionVal) {
+                        exists = true;
+                    }
+                });
+
+                if (!exists) {
+                    $('#lstDifficultyLevels').append('<option value="' + ui.item.value1 + '" selected="selected">' +
+                        ui.item.label +
+                        "</option>"
+                        );
+                    $('#ulDifficultyLevels').append('<li style="margin:2px;" value=' + ui.item.value1 +
+                                             '><span style="" class="badge platform-badge">' +
+                                             ui.item.label + '</span></li>');
+
+                    $('#ulDifficultyLevels > li[value=' +
+                            ui.item.value1 +
+                            '] > span').append("<a style='' > | <span  onclick='removeItem(\"ulDifficultyLevels\", \"lstDifficultyLevels\", " +
+                                                ui.item.value1 +
+                                               ");'" + ' style="vertical-align:baseline;font-size:small;cursor:pointer;" class="remove glyphicon glyphicon-trash"></span></a>'
+                                              );
+                    $(event.target).val('');
+                    //$('#removeItems').show();
+                    //$('#removeDifficultyLevelsEdit').show();
+                    //$('#removeDifficultyLevelsNew').show();
+                    return false;
+                }
+                else {
+                    $(event.target).val(ui.item.label + ' - already added!');
+                    return false;
+                }
+                
+            },
+            change: function (event, ui) {
+                if (!ui.item) {
+                    $(event.target).val('').next('input[type=hidden]').val('');
+                }
+            }
+        });
+
+        $('#lnkAddDifficultyLevel').click(function () {
+            $("#lnkAddDifficultyLevel").hide();
+            $('#txtDifficultyLevel').show();
+            $('#txtDifficultyLevel').animate({
+                width: '100%',
+                backgroundColor: '#fff', // background color
+                paddingRight: '43px'
+            }, 300, function () {
+                $('#txtDifficultyLevel').focus();
+            }).addClass('focus');
+
+            return false;
+        });
+
+        $('#txtDifficultyLevel').keyup(function (e) {
+            if (e.keyCode == 27) { // escape key maps to keycode `27`
+                hideNewDifficultyLevelField();
+            }
+        });
+
+        $('#txtDifficultyLevel').focusout(function () {
+            hideNewDifficultyLevelField();
+        });
+
+        function hideNewDifficultyLevelField() {
+            $('#txtDifficultyLevel').animate({
+                width: '0px'
+            }, 300, function () {
+                $('#txtDifficultyLevel').hide();
+                $("#lnkAddDifficultyLevel").show();
+            }).addClass('focus');
+        }
+
+        $('#txtDifficultyLevel').click(
+            function () {
+                $('#txtDifficultyLevel').val('');
+            }
+        );
+
+    })
+
+    function removeSelectedItems(listBoxControl) {
+        var action_list = document.getElementById(listBoxControl);
+
+        // Remember selected items.
+        var is_selected = [];
+        for (var i = 0; i < action_list.options.length; ++i) {
+            is_selected[i] = action_list.options[i].selected;
+        }
+
+        // Remove selected items.
+        i = action_list.options.length;
+        while (i--) {
+            if (is_selected[i]) {
+                action_list.remove(i);
+            }
+        }
+    }
+
+    function removeItem(ulControl, listBoxControl, value) {
+        $('#' + ulControl + " > li[value=" + value + "]").remove();
+        $('#' + listBoxControl + " option[value=" + value + "]").remove();
+        
+    }
+
+    
+</script>

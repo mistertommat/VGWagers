@@ -85,8 +85,6 @@ namespace VGWagers.Controllers
         {
             try
             {
-
-
                 if (!ModelState.IsValid)
                 {
                     var errors = GetErrorsFromModelState();
@@ -193,8 +191,8 @@ namespace VGWagers.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> RegisterJson(RegisterViewModel model, string returnUrl)
         {
-            try
-            { 
+          try { 
+            
                 if (! ModelState.IsValid)
                 {  
                         var errors = GetErrorsFromModelState();
@@ -277,12 +275,13 @@ namespace VGWagers.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                throw ex;
+                return Json(new { success = false, msg = ex.InnerException.Message});
             }
+
                 // If we got this far, something failed, redisplay form
-            //return Json(new { success = false, msg = "Server Error" });
+                //return Json(new { success = false, msg = "Server Error" });
         }
 
 

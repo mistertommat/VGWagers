@@ -1,0 +1,17 @@
+﻿@{
+    <div id="wrapper">
+        <!-- MovingBoxes Slider -->
+        <ul id="slider">
+            @foreach (var imgPath in Directory.GetFiles(Server.MapPath("~/Content/images/games")).Where(file => file.ToLower().EndsWith("png") 
+                                                                                                                || file.ToLower().EndsWith("jpg")
+                                                                                                       ).ToList()
+                     )
+            {
+                var img = new FileInfo(imgPath);
+                <li class="game-img-slider">
+                    <img src="@Url.Content(String.Format("~/Content/images/games/{0}", img.Name))" />
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,67 @@
+﻿@{
+    List<string>  errorMsgs = null;
+    List<string> infoMsgs = null;
+    List<string> warningMsgs = null;
+    
+    if (TempData["Error"] != null)
+    {
+        errorMsgs = (List<string>)TempData["Error"];
+    }
+
+    if (TempData["Information"] != null)
+    {
+        infoMsgs = (List<string>)TempData["Information"];
+    }
+
+    if (TempData["Warning"] != null)
+    {
+        warningMsgs = (List<string>)TempData["Warning"];
+    }
+ }
+    
+
+@if (errorMsgs != null)
+{ 
+<div class="alert alert-danger">
+    @foreach (string error in errorMsgs)
+    {
+        <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        @error
+    }
+</div>
+}
+        
+@if (infoMsgs != null)
+{
+    <div class="alert alert-success">
+        @foreach (string info in infoMsgs)
+        {
+            <span class="glyphicon glyphicon-info-sign glyphicon-ok" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            @info
+        }
+    </div>
+}
+
+
+@if (warningMsgs != null)
+{
+    <div class="alert alert-danger">
+        @foreach (string warning in warningMsgs)
+        {
+            <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            @warning
+        }
+    </div>
+}
+
+
+
+
+
+
+
+
+

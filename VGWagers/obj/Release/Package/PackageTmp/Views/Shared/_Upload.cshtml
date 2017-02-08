@@ -1,0 +1,80 @@
+﻿@using VGWagers.Models
+@model GameImageModel
+
+@Scripts.Render("~/bundles/jqueryform")
+@Scripts.Render("~/bundles/jcrop")
+@Styles.Render("~/Content/jquery.Jcrop.min.css")
+@Styles.Render("~/Content/site.avatar.css")
+@Scripts.Render("~/bundles/avatar")
+
+<section id="avatar-crop-box" >
+    <p>
+        @{
+            string base64 = string.Empty;
+            string imgSrc = string.Empty;
+            if (Model != null && Model.GAMEIMAGEBINARY != null)
+            {
+                base64 = Convert.ToBase64String(Model.GAMEIMAGEBINARY);
+                imgSrc = String.Format("data:image/png;base64,{0}", base64);
+            }
+            else
+            {
+                imgSrc = "../Content/images/defaultGameImage.png";
+            }
+            <img src="@imgSrc" id="current-Image" alt="Existing image" />
+            <img src="" id="crop-avatar-target" alt="Uploaded image" class="hidden" />
+        }    
+        <div id="preview-pane" class="hidden">
+            <div class="preview-container">
+                <img src="" class="jcrop-preview" alt="Preview" />
+            </div>
+        </div>
+    </p>
+    <p id="saveImageButton" class="hidden">
+        <button class="btn btn-primary" onclick=" saveAvatar() ">Upload Image</button>
+        <a id="cancelImageUpload" style="cursor:pointer;" class="modal-link cancel-link">Cancel</a>
+    </p>
+</section>
+<section id="avatar-upload-box">
+    @using (Ajax.BeginForm("_UploadFile", new { controller = "Avatar" },
+        new AjaxOptions() { HttpMethod = "POST" },
+        new { enctype = "multipart/form-data", 
+              id = "avatar-upload-form", 
+              aspectRatio = ViewData["aspectRatio"], 
+              defaultFullSelection = ViewData["defaultFullSelection"],
+              resizeOnImageSelect = ViewData["resizeOnImageSelect"],
+              redirectURL = ViewData["redirectURL"],
+              parameterValue = ViewData["parameterValue"] 
+            }))
+    {
+        @*<div id="avatar-upload-form">*@
+            var showUploadButton = true;
+            if (ViewData["parameterValueRequired"] == "1" && (ViewData["parameterValue"] == null || ViewData["parameterValue"].ToString() == "0"))
+            {
+                showUploadButton = false;
+            }
+            if (showUploadButton)
+            { 
+                @Html.AntiForgeryToken()
+                <input type="file" name="files" id="flImage" /><br>
+                <div class="upload-file-notice">Maximum Size: <span id="avatar-max-size"></span> MB</div>
+            }
+            else
+            {
+                <div class="alert alert-info alert-dismissable">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    An image can be uploaded after you enter the Game details and save the record.
+                </div> 
+            }
+            @*</div>*@
+            }
+            <div class="upload-progress col-md-6 hidden">
+                <div class="upload-percent-value pull-left">0%</div>
+                <div class="upload-percent-bar pull-left"></div>
+            </div>
+            <div id="upload-status"></div>
+</section>
+    <div id="avatar-result" class="hidden">
+        <img src="" alt="Final Image" />
+    </div>

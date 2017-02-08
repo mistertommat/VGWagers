@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Microsoft.AspNet.Identity;
 
 namespace VGWagers
 {
@@ -17,6 +18,24 @@ namespace VGWagers
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected async void Application_Error(object sender, EventArgs e)
+        {
+            var exception = Server.GetLastError();
+
+            IdentityMessage myMessage = new IdentityMessage();
+            myMessage.Destination = "er.rohitkumar@gmail.com";
+            myMessage.Subject = "VGWager error";
+
+            myMessage.Body = "Error Description: " + exception.Message;
+            
+
+
+            VGWagers.Utilities.EmailService emailServ = new VGWagers.Utilities.EmailService();
+
+            await emailServ.SendAsync(myMessage);
+        }
+
 
     }
 }
